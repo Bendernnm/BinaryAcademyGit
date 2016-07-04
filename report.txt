@@ -1,0 +1,122 @@
+0:
+
+Перші коміти в master:
+git add index.html                                      -   індексація файлу index.html (запис в буфер)
+git commit -m "001: Write text. (index.html)"           -   комінт з наступним повідомленням
+git push origin master
+
+git add index.html
+git commit -m "002: Write title. (index.html)"
+git push origin master
+
+Створення нової вітки:
+git branch develop                                      -   створення нової вітки
+
+Команди для роботи з вітками:
+git branch                                              -   перегляд віток
+git log --oneline --decorate                            -   інформація про вітки
+git checkout master                                     -   команда зміни вказівника HEAD на вказану вітку
+
+Додавання комітів в develop:
+git add .
+git commit -m "003: Create file. (Create about.html)"
+
+git add .
+git commit -m "004: Write text. (about.html)"
+
+Створення нового коміту в master:
+git add .
+git commit -m "005: Decorate text. (index.html)"
+
+git log --oneline --decorate --graph --all              -   відображення розгалудження віток
+
+Створення вітки develop_feature_1:
+git branch develop_feature_1
+
+git add .
+git commit -m "006: Decorate text. (index.html)"
+
+Мержинг вітки master і develop_feature_1 (Fast-forward, так як вітка develop_feature_1 це був нааступний коміт після master)
+git checkout master
+git merge develop_feature_1
+
+Створення віток develop_feature1 та develop_feature2:
+git checkout develop
+git branch develop_feature1
+git checkout develop_feature1
+
+git add .
+git commit -m "007: Create file. (log-file develop1)"
+
+git add .
+git commit -m "008: Decorate about.html."
+
+
+git checkout develop
+git branch develop_feature2
+git checkout develop_feature2
+
+git add .
+git commit -m "009: Create file. (log-file develop2)"
+
+git add .
+git commit -m "010: Decorate about.html."
+
+Мержинг develop і develop_feature1:
+git merge develop_feature1
+
+Видалення вітки develop_feature2:
+git branch -d develop_feature2
+git push origin --delete develop_feature2
+
+Мержинг master і develop:
+git checkout master
+git merge develop
+
+Створення тегу:
+git tag -a v1.0 -m "Merge master and develop."          -   створення тегу
+git tag                                                 -   перегляд тегів
+git show v1.0                                           -   детальна інеформація про тег
+____________________________________________________________________________________________________________________
+
+1:
+
+Коміт в develop_feature1:
+git add .
+git commit -m "011: Last commit."
+
+git log --oneline --since=3.hour master..develop_feature1 develop..develop_feature1                 <---
+
+git log --grep="file" --pretty=format:"%h ::: %ad: %an - %s" master develop                         <---
+
+Щодо сортування не зовсім зрозумів, воно ж й так виводить від останнього до першого.
+Щоб змінити порядок можна використати --reverse.
+____________________________________________________________________________________________________________________
+
+2:
+
+Вибрати вітку develop_feature1.
+Повернутись до коміта С1.
+Замержити вітки develop та develop_feature1.
+Вибрати вітку develop_feature1.
+Повернутись до коміта C5.
+
+git checkout develop_feature1.
+git reset --hard C1
+git checkout develop.
+git merge develop_feature1.
+git checkout develop_feature1.
+git reset --soft C5
+
+--soft - зміни в "буфері"
+--mixed - зміни в робочій області, ще невнесені в "буфер"
+--hard
+____________________________________________________________________________________________________________________
+
+3:
+
+git rebase -i HEAD~2
+В текстовому редакторі pick->edit, редагувати меседж коміта, зберегти і вийти.
+Виконати подальшу інструкцію:
+git commit --amend
+git rebase --continue
